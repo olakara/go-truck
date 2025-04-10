@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 type Truck struct {
 	id string
@@ -24,6 +27,7 @@ func main() {
 		fmt.Printf("Truck %s arrived\n", truck.id)
 		if err := processTruck(truck); err != nil {
 			fmt.Println("Error processing truck:", err)
+			log.Fatalf("Error processing truck: %v", err)
 		}
 	}
 }

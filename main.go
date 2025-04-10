@@ -8,8 +8,9 @@ type Truck struct {
 
 //processTruck handles the loading and unloading of a truck
 
-func processTruck(truck Truck) {
+func processTruck(truck Truck) error {
 	fmt.Println("Processing truck with ID:", truck.id)
+	return nil
 }
 
 func main() {
@@ -21,6 +22,8 @@ func main() {
 
 	for _, truck := range trucks {
 		fmt.Printf("Truck %s arrived\n", truck.id)
-		processTruck(truck)
+		if err := processTruck(truck); err != nil {
+			fmt.Println("Error processing truck:", err)
+		}
 	}
 }

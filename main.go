@@ -17,9 +17,8 @@ type NormalTruck struct {
 }
 
 type EletricTruck struct {
-	id      string
-	cargo   int
-	battery float64
+	id    string
+	cargo int
 }
 
 var (
@@ -37,13 +36,13 @@ func (t *NormalTruck) UnloadCargo() error {
 	return nil
 }
 
-func (t *EletricTruck) UnloadCargo() error {
-	t.cargo = 0
+func (t *EletricTruck) LoadCargo() error {
+	t.cargo++
 	return nil
 }
 
-func (t *EletricTruck) LoadCargo() error {
-	t.cargo++
+func (t *EletricTruck) UnloadCargo() error {
+	t.cargo = 0
 	return nil
 }
 

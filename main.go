@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 )
@@ -12,8 +13,9 @@ type Truck struct {
 //processTruck handles the loading and unloading of a truck
 
 func processTruck(truck Truck) error {
-	fmt.Println("Processing truck with ID:", truck.id)
-	return nil
+	//fmt.Println("Processing truck with ID:", truck.id)
+	//return nil
+	return errors.New("simulated error")
 }
 
 func main() {
@@ -29,5 +31,6 @@ func main() {
 			fmt.Println("Error processing truck:", err)
 			log.Fatalf("Error processing truck: %v", err)
 		}
+
 	}
 }

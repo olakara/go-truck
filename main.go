@@ -10,12 +10,16 @@ type Truck struct {
 	id string
 }
 
+var (
+	ErrNotImplemented = errors.New("not implemented")
+)
+
 //processTruck handles the loading and unloading of a truck
 
 func processTruck(truck Truck) error {
 	//fmt.Println("Processing truck with ID:", truck.id)
 	//return nil
-	return errors.New("simulated error")
+	return ErrNotImplemented
 }
 
 func main() {

@@ -12,11 +12,14 @@ type Truck interface {
 }
 
 type NormalTruck struct {
-	id string
+	id    string
+	cargo int
 }
 
 type EletricTruck struct {
-	id string
+	id      string
+	cargo   int
+	battery float64
 }
 
 var (
@@ -24,19 +27,23 @@ var (
 	ErrTruckNotFound  = errors.New("truck not found")
 )
 
-func (t NormalTruck) UnloadCargo() error {
+func (t *NormalTruck) LoadCargo() error {
+	t.cargo++
+
+	return nil
+}
+func (t *NormalTruck) UnloadCargo() error {
+	t.cargo = 0
 	return nil
 }
 
-func (t NormalTruck) LoadCargo() error {
+func (t *EletricTruck) UnloadCargo() error {
+	t.cargo = 0
 	return nil
 }
 
-func (t EletricTruck) UnloadCargo() error {
-	return nil
-}
-
-func (t EletricTruck) LoadCargo() error {
+func (t *EletricTruck) LoadCargo() error {
+	t.cargo++
 	return nil
 }
 
@@ -59,12 +66,12 @@ func processTruck(truck Truck) error {
 
 func main() {
 
-	if err := processTruck(NormalTruck{id: "Normal Truck 1"}); err != nil {
+	if err := processTruck(&NormalTruck{id: "Normal Truck 1"}); err != nil {
 
 		log.Fatalf("Error processing truck: %v", err)
 	}
 
-	if err := processTruck(EletricTruck{id: "Electric Truck 1"}); err != nil {
+	if err := processTruck(&EletricTruck{id: "Electric Truck 1"}); err != nil {
 		log.Fatalf("Error processing truck: %v", err)
 	}
 

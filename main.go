@@ -50,7 +50,7 @@ func (t *EletricTruck) UnloadCargo() error {
 
 func processTruck(truck Truck) error {
 
-	fmt.Printf("Processing truck: %v\n", truck)
+	fmt.Printf("Processing truck: %+v\n", truck)
 
 	if err := truck.LoadCargo(); err != nil {
 		return fmt.Errorf("error loading cargo: %w", err)

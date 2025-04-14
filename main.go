@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 )
 
 type Truck interface {
@@ -80,6 +81,9 @@ func (t *EletricTruck) Charge(battery int) error {
 func processTruck(truck Truck) error {
 
 	fmt.Printf("Processing truck: %+v\n", truck)
+
+	// Simulate some proocessing time
+	time.Sleep(time.Second)
 	
 	if err := truck.LoadCargo(); err != nil {
 		return fmt.Errorf("error loading cargo: %w", err)
@@ -92,36 +96,25 @@ func processTruck(truck Truck) error {
 	return nil
 }
 
+func processFleet(fleet []Truck) error {
+	for _, truck := range fleet {
+		processTruck(truck)
+	}
+	return nil
+}
+
 func main() {
 
-	normalTruck := NormalTruck{id: "Normal Truck 1"}
-	eletricTruck := EletricTruck{id: "Electric Truck 1", battery: 75}
-
-	normalTruck.FuelUp(50)
-	eletricTruck.Charge(25)
-
-	if err := processTruck(&normalTruck); err != nil {
-
-		log.Fatalf("Error processing truck: %v", err)
+	fleet := []Truck{
+		&NormalTruck{id: "normal_truck_1", cargo: 0, fuel: 100},
+		&EletricTruck{id: "electric_truck_1", cargo: 0, battery: 100},
+		&NormalTruck{id: "normal_truck_2", cargo: 0, fuel: 50},
+		&EletricTruck{id: "electric_truck_2", cargo: 0, battery: 80},
 	}
 
-	if err := processTruck(&eletricTruck); err != nil {
-		log.Fatalf("Error processing truck: %v", err)
+	if err := processFleet(fleet); err != nil {
+		log.Fatalf("Error processing fleet: %v", err)
 	}
 
-	log.Println("Normal truck fuel: ", normalTruck.fuel)
-	log.Println("Electric truck battery: ", eletricTruck.battery)	
-
-	// person := make(map[string]any,0)
-	// person["name"] = "John Doe"
-	// person["age"] = 30
-
-	// log.Println("Person: ", person)
-	// age, exists := person["age"].(int)
-	// if !exists {
-	// 	log.Println("Age not found or not an int")
-	// } else {
-	// 	log.Println("Person age: ", age)
-	// }
-
+	fmt.Println("Fleet processed successfully")
 }

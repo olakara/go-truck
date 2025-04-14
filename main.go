@@ -11,14 +11,24 @@ type Truck interface {
 	UnloadCargo() error
 }
 
+type FuelTruck interface {
+	FuelUp() error
+}
+
+type ChargeTruck interface {
+	Charge() error
+}
+
 type NormalTruck struct {
 	id    string
 	cargo int
+	fuel int
 }
 
 type EletricTruck struct {
 	id    string
 	cargo int
+	battery int
 }
 
 var (
@@ -28,13 +38,23 @@ var (
 
 func (t *NormalTruck) LoadCargo() error {
 	t.cargo++
-
 	return nil
 }
+
 func (t *NormalTruck) UnloadCargo() error {
 	t.cargo = 0
 	return nil
 }
+
+func (t *NormalTruck) FuelUp(fuel int) error {
+	if fuel <= 0 {
+		return fmt.Errorf("invalid fuel amount: %d", fuel)
+	}
+	t.fuel += fuel
+	log.Printf("Truck %s fueled up with %d liters\n", t.id, fuel)
+	return nil
+}
+
 
 func (t *EletricTruck) LoadCargo() error {
 	t.cargo++
@@ -46,12 +66,21 @@ func (t *EletricTruck) UnloadCargo() error {
 	return nil
 }
 
+func (t *EletricTruck) Charge(battery int) error {
+	if battery <= 0 {
+		return fmt.Errorf("invalid battery amount: %d", battery)
+	}
+	t.battery += battery
+	log.Printf("Truck %s charged with %d%%\n", t.id, t.battery)
+	return nil
+}
+
 //processTruck handles the loading and unloading of a truck
 
 func processTruck(truck Truck) error {
 
 	fmt.Printf("Processing truck: %+v\n", truck)
-
+	
 	if err := truck.LoadCargo(); err != nil {
 		return fmt.Errorf("error loading cargo: %w", err)
 	}
@@ -65,13 +94,20 @@ func processTruck(truck Truck) error {
 
 func main() {
 
-	if err := processTruck(&NormalTruck{id: "Normal Truck 1"}); err != nil {
+	normalTruck := NormalTruck{id: "Normal Truck 1"}
+	eletricTruck := EletricTruck{id: "Electric Truck 1", battery: 75}
+
+	normalTruck.FuelUp(50)
+	eletricTruck.Charge(25)
+
+	if err := processTruck(&normalTruck); err != nil {
 
 		log.Fatalf("Error processing truck: %v", err)
 	}
 
-	if err := processTruck(&EletricTruck{id: "Electric Truck 1"}); err != nil {
+	if err := processTruck(&eletricTruck); err != nil {
 		log.Fatalf("Error processing truck: %v", err)
 	}
+
 
 }

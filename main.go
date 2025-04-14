@@ -109,5 +109,8 @@ func main() {
 		log.Fatalf("Error processing truck: %v", err)
 	}
 
+	log.Println("Normal truck fuel: ", normalTruck.fuel)
+	log.Println("Electric truck battery: ", eletricTruck.battery)	
+
 
 }

@@ -112,5 +112,16 @@ func main() {
 	log.Println("Normal truck fuel: ", normalTruck.fuel)
 	log.Println("Electric truck battery: ", eletricTruck.battery)	
 
+	// person := make(map[string]any,0)
+	// person["name"] = "John Doe"
+	// person["age"] = 30
+
+	// log.Println("Person: ", person)
+	// age, exists := person["age"].(int)
+	// if !exists {
+	// 	log.Println("Age not found or not an int")
+	// } else {
+	// 	log.Println("Person age: ", age)
+	// }
 
 }

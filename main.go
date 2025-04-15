@@ -84,11 +84,17 @@ func processTruck(ctx context.Context, truck Truck) error {
 
 	fmt.Printf("Processing truck: %+v\n", truck)
 
-	fleetId := ctx.Value("fleet_id")
-	log.Printf("Fleet ID: %s\n", fleetId)
+	ctx, cancel := context.WithTimeout(ctx, time.Second*2)
+	defer cancel()
 
-	// Simulate some proocessing time
-	time.Sleep(time.Second)
+	delay:= time.Second * 3
+
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-time.After(delay):
+		break
+	}
 	
 	if err := truck.LoadCargo(); err != nil {
 		return fmt.Errorf("error loading cargo: %w", err)
@@ -106,7 +112,9 @@ func processFleet(ctx context.Context, fleet []Truck) error {
 	for _, t := range fleet {
 		wg.Add(1)
 		go func(truck Truck) {
-			processTruck(ctx, truck)
+			if err:= processTruck(ctx, truck); err != nil {
+				log.Printf("Error processing truck %s: %v", truck, err)
+			}
 			wg.Done()
 		}(t)
 	}
@@ -124,7 +132,9 @@ func main() {
 		&NormalTruck{id: "normal_truck_1", cargo: 0, fuel: 100},
 		&EletricTruck{id: "electric_truck_1", cargo: 0, battery: 100},
 		&NormalTruck{id: "normal_truck_2", cargo: 0, fuel: 50},
-		&EletricTruck{id: "electric_truck_2", cargo: 0, battery: 80},
+		&EletricTruck{id: "electric_truck_2", cargo: 20, battery: 66},
+		&NormalTruck{id: "normal_truck_3", cargo: 0, fuel: 80},
+		&EletricTruck{id: "electric_truck_3", cargo: 0, battery: 90},
 	}
 
 	if err := processFleet(ctx, fleet); err != nil {

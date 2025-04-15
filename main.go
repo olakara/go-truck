@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"log"
@@ -79,9 +80,12 @@ func (t *EletricTruck) Charge(battery int) error {
 
 //processTruck handles the loading and unloading of a truck
 
-func processTruck(truck Truck) error {
+func processTruck(ctx context.Context, truck Truck) error {
 
 	fmt.Printf("Processing truck: %+v\n", truck)
+
+	fleetId := ctx.Value("fleet_id")
+	log.Printf("Fleet ID: %s\n", fleetId)
 
 	// Simulate some proocessing time
 	time.Sleep(time.Second)
@@ -97,12 +101,12 @@ func processTruck(truck Truck) error {
 	return nil
 }
 
-func processFleet(fleet []Truck) error {
+func processFleet(ctx context.Context, fleet []Truck) error {
 	var wg sync.WaitGroup
 	for _, t := range fleet {
 		wg.Add(1)
 		go func(truck Truck) {
-			processTruck(truck)
+			processTruck(ctx, truck)
 			wg.Done()
 		}(t)
 	}
@@ -113,6 +117,9 @@ func processFleet(fleet []Truck) error {
 
 func main() {
 
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, "fleet_id", "fleet_1")
+	
 	fleet := []Truck{
 		&NormalTruck{id: "normal_truck_1", cargo: 0, fuel: 100},
 		&EletricTruck{id: "electric_truck_1", cargo: 0, battery: 100},
@@ -120,7 +127,7 @@ func main() {
 		&EletricTruck{id: "electric_truck_2", cargo: 0, battery: 80},
 	}
 
-	if err := processFleet(fleet); err != nil {
+	if err := processFleet(ctx, fleet); err != nil {
 		log.Fatalf("Error processing fleet: %v", err)
 	}
 

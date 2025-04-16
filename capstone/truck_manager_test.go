@@ -13,19 +13,19 @@ func TestAddTruck(t *testing.T) {
 	}
 }
 
-// func TestGetTruck(t *testing.T) {
-// 	manager := NewTruckManager()
-// 	manager.AddTruck("1", 100)
+func TestGetTruck(t *testing.T) {
+	manager := NewTruckManager()
+	manager.AddTruck("1", 100)
 
-// 	truck, err := manager.GetTruck("1")
-// 	if err != nil {
-// 		t.Errorf("Expected no error, got %v", err)
-// 	}
+	truck, err := manager.GetTruck("1")
+	if err != nil {
+		t.Errorf("Expected no error, got %v", err)
+	}
 
-// 	if truck.ID != "1" {
-// 		t.Errorf("Expected truck ID to be 1, got %s", truck.ID)
-// 	}
-// }
+	if truck.ID != "1" {
+		t.Errorf("Expected truck ID to be 1, got %s", truck.ID)
+	}
+}
 
 // func TestRemoveTruck(t *testing.T) {
 // 	manager := NewTruckManager()

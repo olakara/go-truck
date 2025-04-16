@@ -37,3 +37,10 @@ func (tm *truckManager) AddTruck(id string, cargo int) error {
 	tm.trucks[id] = &Truck{ID: id, Cargo: cargo}
 	return nil
 }
+
+func (tm *truckManager) GetTruck(id string) (*Truck, error) {
+	if truck, exists := tm.trucks[id]; exists {
+		return truck, nil
+	}
+	return nil, ErrTruckNotFound
+}

@@ -44,3 +44,11 @@ func (tm *truckManager) GetTruck(id string) (*Truck, error) {
 	}
 	return nil, ErrTruckNotFound
 }
+
+func (tm *truckManager) RemoveTruck(id string) error {
+	if _, exists := tm.trucks[id]; !exists {
+		return ErrTruckNotFound
+	}
+	delete(tm.trucks, id)
+	return nil
+}

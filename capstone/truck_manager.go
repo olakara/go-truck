@@ -52,3 +52,12 @@ func (tm *truckManager) RemoveTruck(id string) error {
 	delete(tm.trucks, id)
 	return nil
 }
+
+func (tm *truckManager) UpdateTruckCargo(id string, cargo int) error {
+	if truck, exists := tm.trucks[id]; exists {
+		truck.Cargo = cargo
+		return nil
+	}
+	return ErrTruckNotFound
+}
+

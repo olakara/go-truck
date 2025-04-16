@@ -43,21 +43,21 @@ func TestRemoveTruck(t *testing.T) {
 	}
 }
 
-// func TestUpdateTruckCargo(t *testing.T) {
-// 	manager := NewTruckManager()
-// 	manager.AddTruck("1", 100)
+func TestUpdateTruckCargo(t *testing.T) {
+	manager := NewTruckManager()
+	manager.AddTruck("1", 100)
 
-// 	manager.UpdateTruckCargo("1", 200)
+	manager.UpdateTruckCargo("1", 200)
 
-// 	truck, err := manager.GetTruck("1")
-// 	if err != nil {
-// 		t.Errorf("Expected no error, got %v", err)
-// 	}
+	truck, err := manager.GetTruck("1")
+	if err != nil {
+		t.Errorf("Expected no error, got %v", err)
+	}
 
-// 	if truck.Cargo != 200 {
-// 		t.Errorf("Expected truck cargo to be 200, got %d", truck.Cargo)
-// 	}
-// }
+	if truck.Cargo != 200 {
+		t.Errorf("Expected truck cargo to be 200, got %d", truck.Cargo)
+	}
+}
 
 /* 
 FIXME: Uncomment me for the concurrency part

@@ -59,8 +59,8 @@ func TestUpdateTruckCargo(t *testing.T) {
 	}
 }
 
-/* 
-FIXME: Uncomment me for the concurrency part
+
+//FIXME: Uncomment me for the concurrency part
 
 func TestConcurrentUpdate(t *testing.T) {
 	manager := NewTruckManager()
@@ -84,4 +84,4 @@ func TestConcurrentUpdate(t *testing.T) {
 	for i := 0; i < numGoroutines; i++ {
 		<-done
 	}
-} */
+} 

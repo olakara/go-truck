@@ -5,6 +5,7 @@ import (
 )
 
 var ErrTruckNotFound = errors.New("truck not found")
+var ErrTruckAlreadyExists = errors.New("truck already exists")
 
 type FleetManager interface {
 	AddTruck(id string, cargo int) error
@@ -26,4 +27,13 @@ func NewTruckManager() truckManager {
 	return truckManager{
 		trucks: make(map[string]*Truck),
 	}
+}
+
+func (tm *truckManager) AddTruck(id string, cargo int) error {
+	if _, exists := tm.trucks[id]; exists {
+		return ErrTruckAlreadyExists
+	}
+
+	tm.trucks[id] = &Truck{ID: id, Cargo: cargo}
+	return nil
 }

@@ -110,7 +110,7 @@ func processTruck(ctx context.Context, truck Truck) error {
 func processFleet(ctx context.Context, fleet []Truck) error {
 	var wg sync.WaitGroup
 	
-	errorsChan := make(chan error)
+	errorsChan := make(chan error, len(fleet))
 	defer close(errorsChan)
 
 	for _, t := range fleet {
